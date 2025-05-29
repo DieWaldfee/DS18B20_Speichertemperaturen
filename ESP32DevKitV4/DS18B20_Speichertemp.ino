@@ -277,7 +277,29 @@ void loop() {
     mqttTopic = MQTT_SERIAL_PUBLISH_DS18B20 + String(i) + "/Adresse";
     mqttClient.publish(mqttTopic.c_str(), Adresse.c_str());
   }
+  //WiFi Signalstärke
+  mqttTopic = MQTT_SERIAL_PUBLISH_STATUS;
+  mqttTopic += "WiFi_Signal_Strength";
+  mqttPayload = WiFi.RSSI();
+  mqttClient.publish(mqttTopic.c_str(), mqttPayload.c_str());
+  if (debug > 2) Serial.print("WiFi Signalstärke: ");
+  if (debug > 2) Serial.println(mqttPayload);
+  //WiFi IP-Adresse
+  mqttTopic = MQTT_SERIAL_PUBLISH_STATUS;
+  mqttTopic += "WiFi_IP_Adress";
+  mqttPayload = WiFi.localIP().toString();
+  mqttClient.publish(mqttTopic.c_str(), mqttPayload.c_str());
+  if (debug > 2) Serial.print("WiFi IP-Adresse: ");
+  if (debug > 2) Serial.println(mqttPayload);
+  //WiFi MAC-Adresse
+  mqttTopic = MQTT_SERIAL_PUBLISH_STATUS;
+  mqttTopic += "WiFi_MAC_Adress";
+  mqttPayload = WiFi.macAddress();
+  mqttClient.publish(mqttTopic.c_str(), mqttPayload.c_str());
+  if (debug > 2) Serial.print("WiFi MAC-Adresse: ");
+  if (debug > 2) Serial.println(mqttPayload);
   mqttClient.loop();
+  //Status-Blink
   digitalWrite(LED_OK, HIGH);
   delay(150);
   digitalWrite(LED_OK, LOW);
